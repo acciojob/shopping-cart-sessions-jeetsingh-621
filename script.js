@@ -7,12 +7,13 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
+// DOM elements
 const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
 // Load cart data from session storage or initialize an empty array
-let cart = JSON.parse(sessionStorage.getItem("shoppingCart")) || [];
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 // Render product list
 function renderProducts() {
@@ -54,28 +55,30 @@ function renderCart() {
   });
 
   // Save updated cart to session storage
-  sessionStorage.setItem("shoppingCart", JSON.stringify(cart));
+  sessionStorage.setItem("cart", JSON.stringify(cart));
 }
 
 // Add item to cart
 function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   if (product) {
-    cart.push(product);
-	   sessionStorage.setItem("shoppingCart", JSON.stringify(cart));
+    cart.push(product); // Allow duplicates if required
+    sessionStorage.setItem("cart", JSON.stringify(cart)); // Save updated cart
     renderCart();
   }
 }
 
 // Remove item from cart
 function removeFromCart(productId) {
-  cart = cart.filter((item) => item.id !== productId);
+  cart = cart.filter((item) => item.id !== productId); // Remove all occurrences of the product
+  sessionStorage.setItem("cart", JSON.stringify(cart)); // Update session storage
   renderCart();
 }
 
 // Clear cart
 function clearCart() {
   cart = [];
+  sessionStorage.setItem("cart", JSON.stringify(cart)); // Clear session storage
   renderCart();
 }
 
