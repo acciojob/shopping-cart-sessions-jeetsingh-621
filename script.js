@@ -62,6 +62,7 @@ function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   if (product) {
     cart.push(product);
+	   sessionStorage.setItem("shoppingCart", JSON.stringify(cart));
     renderCart();
   }
 }
